@@ -168,7 +168,7 @@ def main():
     parser = argparse.ArgumentParser(description="""
     This script is going to create m3u8 from Netease Cloudmusic. 
     """)
-    parser.add_argument("--playlist", default='', help="Playlist name")
+    parser.add_argument("-p", "--playlist", default='', help="Playlist name")
     args = parser.parse_args()
     PLAYLISTNAME = args.playlist
 

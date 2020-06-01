@@ -1,9 +1,10 @@
 Command Line Tool to Extract ".m3u8" Playlist out of Netease Cloudmusic Library
+
 forked from xyqyear/create_m3u_from_NeteaseCloudMusic
 
 #### Usage
-python Exporter.py
+Exporter.exe (wich is equivalent to 'python Exporter.py')
 ##### Show help
-python Exporter.py -h
+Exporter.exe -h
 ##### Specify playlist to export, or export all
-python Exporter.py [--playlist PLAYLISTNAME]
+Exporter.exe [-p PLAYLISTNAME]
