@@ -4,6 +4,7 @@ import sqlite3
 import json
 import os
 import re
+import argparse
 
 from collections import Counter
 
@@ -156,13 +157,21 @@ def save_m3u(m3u_content, top, encoding='utf-8'):
         # 去除敏感字符
         name = make_string_windows_compatible(name)
 
-        file_name = name + '.m3u'
+        file_name = name + '.m3u8'
         file_path = os.path.join(top, file_name)
         with open(file_path, 'w', encoding=encoding, errors='ignore') as m3u_file:
             m3u_file.write(content)
 
 
 def main():
+    # parse args
+    parser = argparse.ArgumentParser(description="""
+    This script is going to create m3u8 from Netease Cloudmusic. 
+    """)
+    parser.add_argument("--playlist", default='', help="Playlist name")
+    args = parser.parse_args()
+    PLAYLISTNAME = args.playlist
+
     # 获取数据库文件
     dirs = get_dir_of_db()
     if not dirs['ok']:
@@ -174,30 +183,23 @@ def main():
     playlists = get_playlist(webdb_dat)
     songs = tid2dir_offline(library_dat, webdb_dat)
 
-    # 用户筛选
-    filter_mode = input('请输入筛选模式，1代表按照用户id筛选，2代表按照是否是自己的歌单筛选:')
+    # select playlist to export
     playlist_ids = []
-
-    if filter_mode == '1':
-        userid_str = input('请输入歌单拥有者用户id，如果需要全部转换就直接回车：')
-        if userid_str == '':
-            for id_ in playlists.keys():
+    if PLAYLISTNAME == '':
+        print("All playlists exporting")
+        for id_ in playlists.keys():
+            playlist_ids.append(id_)
+    else:
+        print("Playlist exporting: " + PLAYLISTNAME)
+        for id_ in playlists.keys():
+            if playlists[id_]['playlist_name'] == PLAYLISTNAME:
                 playlist_ids.append(id_)
-        else:
-            userid = int(userid_str)
-            playlist_ids = playlist_filter_as_userid(playlists, userid)
-
-    if filter_mode == '2':
-        is_sub = input('是否下载自己的歌单？只下载自己的歌单输入1，下载收藏的歌单输入2:')
-        if is_sub == '1':
-            playlist_ids = playlist_fliter_as_subscribed(playlists, False)
-        if is_sub == '2':
-            playlist_ids = playlist_fliter_as_subscribed(playlists, True)
 
     # 生成m3u格式字符串
     m3u_dict = playlist_dict_to_m3u(playlists, songs, playlist_ids)
     # 保存到文件
-    save_m3u(m3u_dict, os.path.abspath('.'))
+    
+    save_m3u(m3u_dict, os.path.join(os.path.expanduser('~'),r'Music\Playlists'))
 
 
 if __name__ == '__main__':

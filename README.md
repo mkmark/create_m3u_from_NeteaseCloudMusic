@@ -1,81 +1,9 @@
-# 导出网易云歌单为m3u
+Command Line Tool to Extract ".m3u8" Playlist out of Netease Cloudmusic Library
+forked from xyqyear/create_m3u_from_NeteaseCloudMusic
 
-    deprecated
-    已弃用
-    不再更新
-
-GUI版本基本功能已经实现\
-快要开学了,所以估计这个分支不会再怎么动了\
-除非有人开issue或者发现了什么重大bug
-
-**_适用于Windows_**
-
-#### 此程序可以分析网易云客户端的数据库文件
-#### 然后导出播放列表为m3u格式
-
-此程序需要网易云的配置文件处于默认目录\
-可能将来会做手动选择网易云数据库文件目录的功能\
-如果安装的时候没有动过配置文件目录就没事（和安装目录没有关系，即使安装在D盘也许也行）
-
-
-## 依赖库:
-非GUI版本没有依赖库
-
-GUI版本依赖库:
-    
-    Pyside2 (pip install pyside2)
-
-## 主要文件:
-
-Exporter.py: 命令行版本的导出工具以及GUI版本的库\
-Exporter_GUI.py: GUI版本的导出工具\
-main_ui.ui: 主窗口的的ui文件\
-sub_ui.ui: 副窗口(歌单详情窗口)的ui文件\
-main_ui.py: 自动转换的主窗口文件\
-sub_ui.py: 自动转换的副窗口文件\
-translateUi.bat: 转换Qt Designer的ui文件为py文件\
-buildExe.bat: 构建exe\
-dist/Exporter.exe: 同Exporter.py\
-dist/Exporter_GUI.exe: 同Exporter_GUI.py
-
-## 使用方法(非GUI版本)
-
-首先打开程序后会开始自动分析网易云客户端数据库文件
-
-然后直到出现这段文字，就可以开始进行筛选了。
-
-    请输入筛选模式，1代表按照用户id筛选，2代表按照是否是自己的歌单筛选:
-
-分析完毕的播放列表可以按照两种模式进行筛选导出
-
-### 1.按照用户id来筛选
-
-打开脚本后输入1即是此模式
-
-回车之后输入歌单创建者的网易云用户id即可只导出此用户创建的歌单
-
-#### 特别的：在此模式下不输入任何用户id直接回车就是导出全部歌单
-
-### 2.按照是否是自己创建的播放列表来进行筛选
-
-打开脚本后输入2即是此模式
-
-回车之后输入1就是导出自己创建的歌单
-
-输入2就是导出收藏的别人创建的歌单
-
-## 使用方法(GUI版本)
-
-![GUI使用方法](./readme_images/gui_guide.png)
-
-## TODO：
-
-- [x] 基础的导出网易云歌单功能
-- [x] 按照用户id筛选
-- [x] 按照是否是自己创建的歌单筛选
-- [x] 简单的GUI
-    - [x] 自定义输出播放列表文件目录
-    - [x] 图形化选择输出的歌单
-    - [x] 自定义m3u文件编码
-    - [ ] 画个/找个图标
-    - [ ] 更加漂亮的界面
+#### Usage
+python Exporter.py
+##### Show help
+python Exporter.py -h
+##### Specify playlist to export, or export all
+python Exporter.py [--playlist PLAYLISTNAME]
